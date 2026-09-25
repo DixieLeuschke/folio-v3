@@ -80,8 +80,8 @@ export function HomePage() {
           className="hero__bg"
           src={heroPhoto}
           alt=""
-          width={1024}
-          height={507}
+          width={1280}
+          height={720}
           decoding="async"
           fetchPriority="high"
         />
