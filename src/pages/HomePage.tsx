@@ -121,7 +121,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="band" id="prace" tabIndex={-1} aria-labelledby="prace-title">
+      <section className="band band--surface" id="prace" tabIndex={-1} aria-labelledby="prace-title">
         <div className="wrap">
           <header className="section-head">
             <p className="kicker type-badge">01 / Prace</p>
