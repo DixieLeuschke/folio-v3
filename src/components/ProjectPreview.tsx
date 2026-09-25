@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import type { ProjectPreview as PreviewData } from '../content'
+import { toPublicPath } from '../router'
 
 type Viewport = 'fit' | 'phone' | 'desktop'
 
@@ -24,7 +25,7 @@ export function ProjectPreview({ projectTitle, previews }: { projectTitle: strin
 
   if (!active) return null
 
-  const source = `/work/${active.file}?embed=1`
+  const source = `${toPublicPath(`/work/${active.file}`)}?embed=1`
 
   function selectPreview(index: number) {
     setIsLoading(true)

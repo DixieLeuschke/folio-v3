@@ -1,4 +1,5 @@
 import type { CaseStudy } from '../content'
+import { toPublicPath } from '../router'
 import { SiteLink } from './SiteLink'
 
 export function ProjectCard({ study }: { study: CaseStudy }) {
@@ -7,7 +8,7 @@ export function ProjectCard({ study }: { study: CaseStudy }) {
       <SiteLink className="project-card__link" href={`/prace/${study.slug}`}>
         <div className="project-card__media">
           <img
-            src={study.thumbnail}
+            src={toPublicPath(study.thumbnail)}
             alt={study.thumbnailAlt}
             width={1280}
             height={800}
