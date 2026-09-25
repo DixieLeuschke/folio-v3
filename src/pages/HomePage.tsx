@@ -106,15 +106,15 @@ export function HomePage() {
           </div>
           <dl className="hero__facts">
             <div>
-              <dt className="type-badge text-muted">Co</dt>
+              <dt className="type-badge">Co</dt>
               <dd>Strony, aplikacje mobilne i projekty interfejsów.</dd>
             </div>
             <div>
-              <dt className="type-badge text-muted">Jak</dt>
+              <dt className="type-badge">Jak</dt>
               <dd>Od pierwszego pomysłu do gotowego, działającego projektu.</dd>
             </div>
             <div>
-              <dt className="type-badge text-muted">Dalej</dt>
+              <dt className="type-badge">Dalej</dt>
               <dd>Zobacz moje prace albo opowiedz, czego potrzebujesz.</dd>
             </div>
           </dl>

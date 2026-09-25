@@ -233,8 +233,11 @@
   display: grid;
   gap: var(--space-md);
   margin: 0;
-  padding-top: var(--space-md);
+  padding: var(--space-md);
   border-top: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--bg-base) 72%, transparent);
+  backdrop-filter: blur(10px);
 }
 
 .hero__facts div {
@@ -242,8 +245,14 @@
   gap: var(--space-3xs);
 }
 
+.hero__facts dt {
+  color: var(--accent-brass);
+}
+
 .hero__facts dd {
   margin: 0;
+  color: var(--text-main);
+  font-weight: var(--weight-medium);
 }
 
 .actions {
@@ -930,10 +939,9 @@
   }
 
   .hero__facts {
-    padding-top: 0;
-    padding-left: var(--space-lg);
+    padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
     border-top: 0;
-    border-left: 1px solid var(--border-default);
+    border-left: 1px solid var(--border-highlight);
   }
 
   .contact-grid,
