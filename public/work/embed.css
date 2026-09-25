@@ -1,0 +1,39 @@
+/* Wspólna warstwa dla makiet uruchamianych w podglądzie portfolio. */
+html.is-embed {
+  color-scheme: dark;
+  scrollbar-color: rgba(201, 168, 118, 0.45) transparent;
+  scrollbar-width: thin;
+}
+
+html.is-embed,
+html.is-embed body {
+  min-height: 100%;
+}
+
+html.is-embed :focus-visible {
+  outline: 2px solid #dec08f;
+  outline-offset: 3px;
+}
+
+html.is-embed ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html.is-embed ::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 99px;
+  background: rgba(201, 168, 118, 0.45);
+  background-clip: padding-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-embed *,
+  html.is-embed *::before,
+  html.is-embed *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
