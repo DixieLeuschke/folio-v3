@@ -5,10 +5,11 @@ import { CopyAddress } from '../components/CopyAddress'
 import { ProjectCard } from '../components/ProjectCard'
 import { SiteLink } from '../components/SiteLink'
 import {
-  caseStudies,
+  aboutPrinciples,
   contactEmail,
+  featuredWork,
+  furtherWork,
   homeTitle,
-  principles,
   processSteps,
   services,
 } from '../content'
@@ -88,9 +89,7 @@ export function HomePage() {
         <div className="wrap hero__grid">
           <div>
             <p className="kicker type-badge">Strony · aplikacje mobilne · projektowanie</p>
-            <h1 id="hero-title">
-              Projektuję strony internetowe, aplikacje mobilne i nowoczesne interfejsy.
-            </h1>
+            <h1 id="hero-title">Projektuję interfejsy od przepływu po działający front-end.</h1>
             <p className="type-body-lg hero__lead">
               Pomagam zamienić pomysł w przejrzysty projekt, który dobrze wygląda, jest prosty w obsłudze
               i działa na każdym ekranie.
@@ -125,24 +124,32 @@ export function HomePage() {
         <div className="wrap">
           <header className="section-head">
             <p className="kicker type-badge">01 / Prace</p>
-            <h2 id="prace-title">Cztery projekty. Pięć działających widoków.</h2>
+            <h2 id="prace-title">Dwa pełne case studies. Jedno dalsze studium.</h2>
             <p className="type-body-lg text-muted">
-              Otwórz wybrany projekt, zobacz go na różnych ekranach i sprawdź, jak działa.
+              FinLux i BarthMoney na górze. Graff — kalendarz zmian i plan dawek — niżej.
             </p>
           </header>
-          <div className="work-list">
-            {caseStudies.map((study) => (
-              <ProjectCard key={study.slug} study={study} />
+          <div className="work-list work-list--featured">
+            {featuredWork.map((study) => (
+              <ProjectCard key={study.slug} study={study} featured />
             ))}
+          </div>
+          <div className="work-more">
+            <p className="kicker type-badge work-more__label">Dalsze studium</p>
+            <div className="work-list work-list--more">
+              {furtherWork.map((study) => (
+                <ProjectCard key={study.slug} study={study} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="band band--surface" id="uslugi" tabIndex={-1} aria-labelledby="uslugi-title">
+      <section className="band" id="uslugi" tabIndex={-1} aria-labelledby="uslugi-title">
         <div className="wrap">
           <header className="section-head">
             <p className="kicker type-badge">02 / Usługi</p>
-            <h2 id="uslugi-title">W czym mogę pomóc.</h2>
+            <h2 id="uslugi-title">Zakres pracy.</h2>
           </header>
           <ol className="service-list">
             {services.map((service, index) => (
@@ -158,7 +165,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="band" id="proces" tabIndex={-1} aria-labelledby="proces-title">
+      <section className="band band--surface" id="proces" tabIndex={-1} aria-labelledby="proces-title">
         <div className="wrap">
           <header className="section-head">
             <p className="kicker type-badge">03 / Proces</p>
@@ -185,20 +192,9 @@ export function HomePage() {
             <h2 id="o-mnie-title">Projektuję jasno i konkretnie.</h2>
             <p className="type-body-lg text-muted">
               Tworzę dla firm i osób, które potrzebują nowej strony, aplikacji mobilnej albo lepszego
-              wyglądu istniejącego produktu.
+              wyglądu istniejącego produktu. {aboutPrinciples}
             </p>
           </header>
-          <ol className="principle-list">
-            {principles.map((principle, index) => (
-              <li key={principle.title}>
-                <h3>
-                  <span className="type-badge text-muted">{String(index + 1).padStart(2, '0')}</span>
-                  {principle.title}
-                </h3>
-                <p className="text-muted">{principle.text}</p>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 

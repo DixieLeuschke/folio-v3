@@ -24,20 +24,28 @@ export type CaseBlock = {
   items?: string[]
 }
 
+export type PreviewCanvas = 'phone' | 'wide'
+
 export type ProjectPreview = {
   label: string
   file: string
   description: string
+  /** `phone`: klatka ~390×844. `wide`: układ korzysta z szerokiego okna (np. kilka klatek). */
+  canvas: PreviewCanvas
 }
 
 export type CaseStudy = {
   slug: string
+  aliases?: string[]
+  placement: 'featured' | 'more'
   title: string
   type: string
   status: ProjectStatus
   summary: string
   thumbnail: string
   thumbnailAlt: string
+  thumbnailSecondary?: string
+  thumbnailSecondaryAlt?: string
   previews: ProjectPreview[]
   blocks: CaseBlock[]
   tools: string[]
@@ -46,6 +54,7 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'finlux',
+    placement: 'featured',
     title: 'FinLux',
     type: 'Produkt finansowy',
     status: 'Projekt koncepcyjny',
@@ -57,12 +66,14 @@ export const caseStudies: CaseStudy[] = [
       {
         label: 'Home · decyzje',
         file: 'finlux-home.html',
-        description: 'Rozbudowany ekran główny z mapą wycieków i listą decyzji.',
+        description: 'Rozbudowany ekran główny z mapą wycieków i listą decyzji. Makieta telefonu 390×844.',
+        canvas: 'phone',
       },
       {
         label: 'Home · cashflow',
         file: 'finlux-m3.html',
-        description: 'Alternatywny wariant ekranu z cashflow i insightem AI.',
+        description: 'Alternatywny wariant ekranu z cashflow i insightem AI. Makieta telefonu 390×844.',
+        canvas: 'phone',
       },
     ],
     blocks: [
@@ -130,6 +141,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'barthmoney',
+    placement: 'featured',
     title: 'BarthMoney',
     type: 'Aplikacja mobilna',
     status: 'Wersja demonstracyjna',
@@ -141,7 +153,8 @@ export const caseStudies: CaseStudy[] = [
       {
         label: 'Interaktywny mockup',
         file: 'barth-money.html',
-        description: 'Cztery ekrany aplikacji z działającą nawigacją, formularzami i stanami.',
+        description: 'Cztery klatki telefonu obok siebie na szerokim oknie; na wąskim układają się jedna pod drugą.',
+        canvas: 'wide',
       },
     ],
     blocks: [
@@ -210,96 +223,63 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'graff',
+    aliases: ['suplementacja'],
+    placement: 'more',
     title: 'Graff',
     type: 'Aplikacja mobilna',
     status: 'Wersja demonstracyjna',
     summary:
-      'Kalendarz pracy z dniówkami, nockami, podsumowaniem godzin i szczegółami każdego dnia.',
+      'Kalendarz zmian i dzienny plan dawek w jednym produkcie: dniówki, nocki, godziny oraz co przyjąć i kiedy.',
     thumbnail: '/thumbnails/graff.png',
     thumbnailAlt: 'Mobilny kalendarz Graff z oznaczonymi zmianami dziennymi i nocnymi.',
+    thumbnailSecondary: '/thumbnails/suplementacja.png',
+    thumbnailSecondaryAlt: 'Ekran suplementacji Graff z wynikiem dnia i listą zaplanowanych dawek.',
     previews: [
       {
         label: 'Kalendarz zmian',
         file: 'GRAFF.html',
-        description: 'Interaktywny kalendarz z wyborem zmian, nawigacją po miesiącach i automatycznym podsumowaniem.',
-      },
-    ],
-    blocks: [
-      {
-        title: 'Kontekst',
-        paragraphs: [
-          'Graff to mobilny prototyp kalendarza pracy zmianowej. Łączy miesięczny plan, oznaczenia dniówek i nocek oraz bieżące podsumowanie czasu pracy.',
-        ],
+        description: 'Interaktywny kalendarz z wyborem zmian, nawigacją po miesiącach i automatycznym podsumowaniem. Makieta telefonu 390×844.',
+        canvas: 'phone',
       },
       {
-        title: 'Problem',
-        paragraphs: [
-          'Grafik zmianowy powinien pozwalać szybko rozpoznać rodzaj zmiany, sprawdzić liczbę godzin i poprawić pojedynczy dzień bez przechodzenia przez rozbudowany formularz.',
-        ],
-      },
-      {
-        title: 'Kluczowe decyzje',
-        paragraphs: ['Kalendarz jest jednocześnie widokiem i głównym mechanizmem edycji.'],
-        items: [
-          'Dniówki i nocki mają odrębne, czytelne oznaczenia kolorystyczne.',
-          'Statystyki miesiąca aktualizują się wraz ze zmianami w kalendarzu.',
-          'Wybranie dnia otwiera szczegóły bez opuszczania kontekstu miesiąca.',
-          'Przyciski i komórki kalendarza zachowują mobilne cele dotykowe.',
-        ],
-      },
-      {
-        title: 'Prototyp / implementacja',
-        paragraphs: [
-          'Samodzielny prototyp HTML, CSS i JavaScript z nawigacją miesięcy, edycją rodzaju zmiany oraz przeliczaniem statystyk.',
-        ],
-      },
-    ],
-    tools: ['HTML', 'CSS', 'JavaScript'],
-  },
-  {
-    slug: 'suplementacja',
-    title: 'Suplementacja',
-    type: 'Aplikacja mobilna',
-    status: 'Wersja demonstracyjna',
-    summary:
-      'Plan suplementów na każdy dzień: godziny, dawki, przypomnienia i prosty podgląd postępu.',
-    thumbnail: '/thumbnails/suplementacja.png',
-    thumbnailAlt: 'Ekran suplementacji Graff z wynikiem dnia i listą zaplanowanych dawek.',
-    previews: [
-      {
-        label: 'Supplement widget',
+        label: 'Plan dawek',
         file: 'suplementacja.html',
-        description: 'Działający widok dziennego planu z aktualizowanym wynikiem, dawkami i komunikatami.',
+        description: 'Dzienny plan suplementów z wynikiem dnia, dawkami i komunikatami. Makieta telefonu 390×844.',
+        canvas: 'phone',
       },
     ],
     blocks: [
       {
         title: 'Kontekst',
         paragraphs: [
-          'Moduł suplementacji rozwija aplikację Graff o codzienny plan dawek. Pokazuje postęp dnia oraz rozdziela wykonane, pominięte i zaplanowane suplementy.',
+          'Graff to mobilny prototyp kalendarza pracy zmianowej. Drugi ekran dokłada codzienny plan dawek: postęp dnia oraz dawki wykonane, pominięte i zaplanowane.',
         ],
       },
       {
         title: 'Problem',
         paragraphs: [
-          'Lista suplementów musi odpowiadać na trzy pytania bez dodatkowej nawigacji: co przyjąć, kiedy to zrobić i co zostało już wykonane.',
+          'Grafik ma pozwolić rozpoznać rodzaj zmiany, sprawdzić godziny i poprawić dzień bez osobnego formularza. Lista suplementów ma od razu odpowiadać: co przyjąć, kiedy i co już zrobione.',
         ],
       },
       {
         title: 'Kluczowe decyzje',
-        paragraphs: ['Widok porządkuje dzień wokół postępu i kolejności dawek.'],
+        paragraphs: ['Kalendarz jest widokiem i edycją. Plan dawek trzyma wynik dnia nad listą.'],
         items: [
-          'Wynik dnia pozostaje nad listą i reaguje na oznaczenie dawki.',
-          'Spóźniona dawka otrzymuje osobny komunikat zamiast samej zmiany koloru.',
-          'Każdy suplement pokazuje dawkę, relację do posiłku i godzinę.',
-          'Przypomnienia i dodanie suplementu są widoczne jako osobne działania.',
+          'Dniówki i nocki mają osobne oznaczenia, a statystyki miesiąca liczą się przy zmianie dnia.',
+          'Wybranie dnia otwiera szczegóły bez opuszczania miesiąca.',
+          'Spóźniona dawka ma komunikat, nie tylko zmianę koloru.',
+          'Przypomnienia i dodanie suplementu są osobnymi działaniami.',
         ],
       },
       {
         title: 'Prototyp / implementacja',
         paragraphs: [
-          'Interaktywny HTML, CSS i JavaScript: oznaczanie wykonanych dawek, aktualizacja wskaźnika postępu oraz komunikaty dla działań.',
+          'Dwa interaktywne widoki HTML, CSS i JavaScript: kalendarz zmian oraz dzienny plan dawek z aktualizacją postępu.',
         ],
+      },
+      {
+        title: 'Rola',
+        paragraphs: ['UX i UI obu ekranów oraz stany brzegowe planu dawek.'],
       },
     ],
     tools: ['HTML', 'CSS', 'JavaScript'],
@@ -307,14 +287,25 @@ export const caseStudies: CaseStudy[] = [
 ]
 
 export function caseBySlug(slug: string) {
-  return caseStudies.find((item) => item.slug === slug)
+  return caseStudies.find((item) => item.slug === slug || item.aliases?.includes(slug))
 }
 
+export const featuredWork = caseStudies.filter((item) => item.placement === 'featured')
+export const furtherWork = caseStudies.filter((item) => item.placement === 'more')
+
 export const services = [
-  { title: 'Strony internetowe', text: 'Nowe strony oraz odświeżenie tych, które wymagają poprawy.' },
-  { title: 'Aplikacje mobilne', text: 'Czytelne ekrany i wygodna obsługa na telefonach.' },
-  { title: 'Wygląd interfejsu', text: 'Kolory, typografia i spójny wygląd całego produktu.' },
-  { title: 'Działające projekty', text: 'Klikalne wersje demonstracyjne i gotowy interfejs strony.' },
+  {
+    title: 'Product i UX',
+    text: 'Problem, architektura informacji i przepływ użytkownika, zanim powstanie ekran.',
+  },
+  {
+    title: 'UI i system wizualny',
+    text: 'Typografia, tokeny, stany i hierarchia, które da się utrzymać w kodzie.',
+  },
+  {
+    title: 'Front-end',
+    text: 'Działający interfejs w HTML, CSS, React i TypeScript — od prototypu do strony.',
+  },
 ] as const
 
 export const processSteps = [
@@ -324,12 +315,8 @@ export const processSteps = [
   { title: 'Uruchamiam i poprawiam', text: 'Przygotowuję działającą wersję i dopracowuję szczegóły.' },
 ] as const
 
-export const principles = [
-  { title: 'Najpierw cel', text: 'Każdy ekran powinien pomagać użytkownikowi zrobić konkretną rzecz.' },
-  { title: 'Prosta obsługa', text: 'Projekt powinien być zrozumiały bez dodatkowych instrukcji.' },
-  { title: 'Dobry wygląd ma pomagać', text: 'Kolory i typografia prowadzą wzrok do najważniejszych treści.' },
-  { title: 'Dopracowanie na każdym ekranie', text: 'Strona lub aplikacja ma działać równie dobrze na telefonie i komputerze.' },
-] as const
+export const aboutPrinciples =
+  'Ekran ma prowadzić do konkretnej decyzji. Kolor i typografia służą hierarchii, a ten sam układ ma działać na telefonie i na pulpicie.'
 
 export const projectKinds = [
   'Strona internetowa',

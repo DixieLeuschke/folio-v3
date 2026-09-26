@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { cta, navItems } from '../content'
 import { SiteLink } from './SiteLink'
+import { useActiveSection } from '../useActiveSection'
 
 const desktopQuery = '(min-width: 56rem)'
 
@@ -12,6 +13,7 @@ export function Header() {
   const closeRef = useRef<HTMLButtonElement>(null)
   const titleId = useId()
   const dialog = open && !desktop
+  const activeSection = useActiveSection()
 
   useEffect(() => {
     const media = window.matchMedia(desktopQuery)
@@ -113,7 +115,12 @@ export function Header() {
           </div>
           <nav className="nav-links" aria-label="Sekcje">
             {navItems.map((item) => (
-              <SiteLink key={item.id} href={item.href} onNavigate={() => setOpen(false)}>
+              <SiteLink
+                key={item.id}
+                href={item.href}
+                current={activeSection === item.id}
+                onNavigate={() => setOpen(false)}
+              >
                 {item.label}
               </SiteLink>
             ))}

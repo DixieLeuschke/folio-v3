@@ -752,5 +752,11 @@
       flash("Add supplement sheet would open");
     });
   </script>
+<link rel="stylesheet" href="embed.css" />
+<script>
+  if (location.search.includes("embed")) {
+    document.documentElement.classList.add("is-embed");
+  }
+</script>
 </body>
 </html>

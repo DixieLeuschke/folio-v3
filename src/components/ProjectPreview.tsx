@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import type { ProjectPreview as PreviewData } from '../content'
 import { toPublicPath } from '../router'
 
@@ -10,26 +10,60 @@ const viewportLabels: Record<Viewport, string> = {
   desktop: 'Pulpit',
 }
 
+function viewportsFor(canvas: PreviewData['canvas']): Viewport[] {
+  return canvas === 'wide' ? ['fit', 'phone', 'desktop'] : ['fit', 'phone']
+}
+
+function previewDomId(prefix: string, file: string) {
+  return `${prefix}-${file.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`
+}
+
 export function ProjectPreview({ projectTitle, previews }: { projectTitle: string; previews: PreviewData[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [viewport, setViewport] = useState<Viewport>('fit')
   const [isLoading, setIsLoading] = useState(true)
   const [frameVersion, setFrameVersion] = useState(0)
   const descriptionId = useId()
+  const panelId = useId()
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const active = previews[activeIndex] ?? previews[0]
+  const hasTabs = previews.length > 1
+  const canvas = active?.canvas
+  const sizes = canvas ? viewportsFor(canvas) : []
 
   useEffect(() => {
     setActiveIndex(0)
     setViewport('fit')
   }, [projectTitle])
 
+  useEffect(() => {
+    if (!canvas) return
+    if (!viewportsFor(canvas).includes(viewport)) setViewport('fit')
+  }, [canvas, viewport])
+
   if (!active) return null
 
   const source = `${toPublicPath(`/work/${active.file}`)}?embed=1`
+  const activeTabId = previewDomId('preview-tab', active.file)
 
   function selectPreview(index: number) {
     setIsLoading(true)
     setActiveIndex(index)
+  }
+
+  function onTabKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (!hasTabs) return
+    const last = previews.length - 1
+    let next = activeIndex
+    if (event.key === 'ArrowRight') next = activeIndex === last ? 0 : activeIndex + 1
+    else if (event.key === 'ArrowLeft') next = activeIndex === 0 ? last : activeIndex - 1
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = last
+    else return
+
+    event.preventDefault()
+    selectPreview(next)
+    queueMicrotask(() => tabRefs.current[next]?.focus())
   }
 
   return (
@@ -45,14 +79,20 @@ export function ProjectPreview({ projectTitle, previews }: { projectTitle: strin
       </div>
 
       <div className="preview__toolbar">
-        {previews.length > 1 ? (
-          <div className="preview__tabs" role="tablist" aria-label="Widoki projektu">
+        {hasTabs ? (
+          <div className="preview__tabs" role="tablist" aria-label="Widoki projektu" onKeyDown={onTabKeyDown}>
             {previews.map((preview, index) => (
               <button
                 key={preview.file}
+                ref={(node) => {
+                  tabRefs.current[index] = node
+                }}
+                id={previewDomId('preview-tab', preview.file)}
                 type="button"
                 role="tab"
                 aria-selected={activeIndex === index}
+                aria-controls={panelId}
+                tabIndex={activeIndex === index ? 0 : -1}
                 onClick={() => selectPreview(index)}
               >
                 {preview.label}
@@ -64,7 +104,7 @@ export function ProjectPreview({ projectTitle, previews }: { projectTitle: strin
         )}
 
         <div className="preview__sizes" aria-label="Szerokość podglądu">
-          {(Object.keys(viewportLabels) as Viewport[]).map((value) => (
+          {sizes.map((value) => (
             <button
               key={value}
               type="button"
@@ -81,7 +121,12 @@ export function ProjectPreview({ projectTitle, previews }: { projectTitle: strin
         {active.description}
       </p>
 
-      <div className={`preview__stage preview__stage--${viewport}`}>
+      <div
+        className={`preview__stage preview__stage--${viewport}`}
+        role={hasTabs ? 'tabpanel' : undefined}
+        id={hasTabs ? panelId : undefined}
+        aria-labelledby={hasTabs ? activeTabId : undefined}
+      >
         <div className="preview__browser" aria-busy={isLoading}>
           <div className="preview__chrome" aria-hidden="true">
             <span />
@@ -89,7 +134,12 @@ export function ProjectPreview({ projectTitle, previews }: { projectTitle: strin
             <span />
             <p>{active.file}</p>
           </div>
-          {isLoading ? <div className="preview__loading"><span />Ładowanie podglądu…</div> : null}
+          {isLoading ? (
+            <div className="preview__loading">
+              <span />
+              Ładowanie podglądu…
+            </div>
+          ) : null}
           <iframe
             key={`${active.file}-${frameVersion}`}
             className="preview__frame"
